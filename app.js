@@ -33,9 +33,9 @@
   function renderAuth(mode='login') {
     const signup = mode === 'signup';
     app.innerHTML = `<main class="auth-wrap"><section class="auth-card">
-      <div class="auth-brand"><div class="brand-mark">P</div><div><div class="brand-name">PasuChat</div><div class="auth-sub">CONNECT · CHAT · SHARE</div></div></div>
+      <div class="auth-brand"><div class="brand-mark">P</div><div><div class="brand-name">Pasutantan</div><div class="auth-sub">CONNECT · CHAT · SHARE</div></div></div>
       <h1>${signup?'アカウントを作成':'おかえりなさい'}</h1>
-      <p class="intro">${signup?'ユーザー名とパスワードを設定して、PasuChatを始めよう。':'ログインして、みんなとの会話を続けよう。'}</p>
+      <p class="intro">${signup?'ユーザー名とパスワードを設定して、Pasutantanを始めよう。':'ログインして、みんなとの会話を続けよう。'}</p>
       <form id="auth-form">
         <div class="field"><label for="username">ユーザー名</label><input id="username" name="username" maxlength="20" minlength="3" autocomplete="username" placeholder="例：pasu_123" required pattern="[A-Za-z0-9_]{3,20}"><small>3〜20文字。半角英数字と _ が使えます。</small></div>
         ${signup?'<div class="field"><label for="display-name">表示名</label><input id="display-name" name="displayName" maxlength="24" placeholder="ほかの人に表示する名前" required></div>':''}
@@ -132,12 +132,12 @@
     const av=state.profile?.avatar_id || '🌱';
     const onlineFriends=state.demo?[{name:'Minto',av:'🐱',handle:'minto_7'}]:state.friends.filter(u=>isOnline(u.last_seen_at)).map(u=>({name:u.display_name||u.username,av:u.avatar_id,handle:u.username}));
     app.innerHTML=`<div class="app-shell">
-      <aside class="sidebar"><div class="sidebar-brand"><div class="brand-mark">P</div><div class="brand-name">PasuChat</div></div>
+      <aside class="sidebar"><div class="sidebar-brand"><div class="brand-mark">P</div><div class="brand-name">Pasutantan</div></div>
         <div class="nav-label">MENU</div><nav class="nav-list">${navButton('feed','⌂','タイムライン')}${navButton('chats','▤','チャット')}${navButton('friends','♙','フレンド')}${navButton('notifications','♢','通知',state.notifications.filter(n=>!n.is_read).length||'')}${navButton('profile','◉','プロフィール')}</nav>
         <div class="sidebar-bottom"><div class="nav-label">ACCOUNT</div><button class="nav-btn" id="logout"><span class="nav-icon">↪</span><span>ログアウト</span></button><div class="user-mini">${avatar(av,'small')}<div class="user-mini-info"><div class="user-mini-name">${esc(name)}</div><div class="user-mini-handle">@${esc(handle)}</div></div><span class="online-dot"></span></div></div>
       </aside>
       <main class="main-column"><header class="topbar"><h1>${({feed:'タイムライン',chats:'チャット',friends:'フレンド',notifications:'通知',profile:'プロフィール'})[state.page]}</h1><div class="topbar-right">${state.demo?'<span class="demo-tag">DEMO MODE</span>':''}<button class="icon-btn" id="top-notifications" title="通知">♢${state.notifications.some(n=>!n.is_read)?'<i class="notification-dot"></i>':''}</button></div></header><div class="content" id="page-content">${pageMarkup()}</div></main>
-      <aside class="rightbar"><section class="right-panel"><h3>オンライン</h3>${onlineFriends.map(u=>`<div class="online-row">${avatar(u.av,'small')}<div class="user-detail"><strong>${esc(u.name)}</strong><small>@${esc(u.handle)}</small></div><i class="online-dot"></i></div>`).join('') || '<p>オンラインのフレンドはここに表示されます。</p>'}</section><section class="right-panel"><h3>PasuChatについて</h3><p>文字でつながる、小さなコミュニティ。タイムラインもチャットも、気軽に楽しもう。</p></section><section class="right-panel"><h3>現在の仕様</h3><p>画像投稿・画像送信はできません。投稿の公開範囲は、全体公開・フレンドのみ・自分のみから選べます。</p></section></aside>
+      <aside class="rightbar"><section class="right-panel"><h3>オンライン</h3>${onlineFriends.map(u=>`<div class="online-row">${avatar(u.av,'small')}<div class="user-detail"><strong>${esc(u.name)}</strong><small>@${esc(u.handle)}</small></div><i class="online-dot"></i></div>`).join('') || '<p>オンラインのフレンドはここに表示されます。</p>'}</section><section class="right-panel"><h3>Pasutantanについて</h3><p>文字でつながる、小さなコミュニティ。タイムラインもチャットも、気軽に楽しもう。</p></section><section class="right-panel"><h3>現在の仕様</h3><p>画像投稿・画像送信はできません。投稿の公開範囲は、全体公開・フレンドのみ・自分のみから選べます。</p></section></aside>
       <nav class="mobile-nav">${navButton('feed','⌂','ホーム')}${navButton('chats','▤','チャット')}${navButton('friends','♙','フレンド')}${navButton('notifications','♢','通知')}${navButton('profile','◉','プロフィール')}</nav>
     </div>`;
     app.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>{ state.page=button.dataset.page; renderApp(); afterPageRender(); }));
@@ -164,7 +164,7 @@
     const posts=state.posts;
     return `<div class="page-heading"><h2>みんなの投稿</h2><p>最近の出来事や、ちょっとしたことを共有しよう。</p></div>
       <section class="composer"><div class="composer-top">${avatar(state.profile?.avatar_id,'')}<textarea id="post-content" maxlength="500" placeholder="今なにしてる？"></textarea></div><div class="composer-foot"><small>テキストのみ · 最大500文字</small><div class="composer-tools"><select class="select-small" id="post-visibility"><option value="public">全体公開</option><option value="friends">フレンドのみ</option><option value="private">自分のみ</option></select><button class="btn small" id="publish-post">投稿する</button></div></div></section>
-      <div class="feed-list">${posts.length?posts.map(postMarkup).join(''):'<div class="empty-card"><div class="empty-icon">✎</div><strong>まだ投稿がありません</strong><p>最初の投稿をして、PasuChatを始めよう。</p></div>'}</div>`;
+      <div class="feed-list">${posts.length?posts.map(postMarkup).join(''):'<div class="empty-card"><div class="empty-icon">✎</div><strong>まだ投稿がありません</strong><p>最初の投稿をして、Pasutantanを始めよう。</p></div>'}</div>`;
   }
   function postMarkup(post) {
     const own=post.user_id===state.user.id;
@@ -173,18 +173,23 @@
   async function loadPosts() {
     if (state.demo || !db || !state.user) { if(state.demo) renderApp(); return; }
     const {data:posts,error}=await db.from('posts').select('id,user_id,content,visibility,created_at').order('created_at',{ascending:false}).limit(40);
-    if(error){console.error(error);return;}
+    if(error){console.error('PasuChat posts:',error);showToast('投稿を読み込めませんでした: '+friendlyError(error));return;}
     const ids=[...new Set((posts||[]).map(p=>p.user_id))];
-    const {data:profiles}=ids.length?await db.from('profiles').select('id,username,display_name,avatar_id').in('id',ids):{data:[]};
+    const {data:profiles,error:profileError}=ids.length?await db.from('profiles').select('id,username,display_name,avatar_id').in('id',ids):{data:[],error:null};
+    if(profileError)console.warn('PasuChat post profiles:',profileError);
     const prof=new Map((profiles||[]).map(p=>[p.id,p]));
     const postIds=(posts||[]).map(p=>p.id);
-    const [{data:likes},{data:mine},{data:comments}]=await Promise.all([
-      postIds.length?db.from('post_likes').select('post_id').in('post_id',postIds):Promise.resolve({data:[]}),
-      postIds.length?db.from('post_likes').select('post_id').eq('user_id',state.user.id).in('post_id',postIds):Promise.resolve({data:[]}),
-      postIds.length?db.from('post_comments').select('post_id').in('post_id',postIds):Promise.resolve({data:[]})
+    const [likesResult,mineResult,commentsResult]=await Promise.all([
+      postIds.length?db.from('post_likes').select('post_id').in('post_id',postIds):Promise.resolve({data:[],error:null}),
+      postIds.length?db.from('post_likes').select('post_id').eq('user_id',state.user.id).in('post_id',postIds):Promise.resolve({data:[],error:null}),
+      postIds.length?db.from('post_comments').select('post_id').in('post_id',postIds):Promise.resolve({data:[],error:null})
     ]);
-    const likeCounts={},commentCounts={}; (likes||[]).forEach(x=>likeCounts[x.post_id]=(likeCounts[x.post_id]||0)+1); (comments||[]).forEach(x=>commentCounts[x.post_id]=(commentCounts[x.post_id]||0)+1);
-    const liked=new Set((mine||[]).map(x=>x.post_id));
+    for (const result of [likesResult,mineResult,commentsResult]) if(result.error) console.error('PasuChat post reactions:',result.error);
+    const likes=likesResult.data||[],mine=mineResult.data||[],comments=commentsResult.data||[];
+    const likeCounts={},commentCounts={};
+    likes.forEach(x=>likeCounts[x.post_id]=(likeCounts[x.post_id]||0)+1);
+    comments.forEach(x=>commentCounts[x.post_id]=(commentCounts[x.post_id]||0)+1);
+    const liked=new Set(mine.map(x=>x.post_id));
     state.posts=(posts||[]).map(p=>({...p,...(prof.get(p.user_id)||{}),likes:likeCounts[p.id]||0,liked:liked.has(p.id),comment_count:commentCounts[p.id]||0,comments:[]}));
     if(state.page==='feed') { const content=$('#page-content'); if(content) content.innerHTML=feedMarkup(); bindPage(); }
   }
@@ -198,9 +203,13 @@
   }
   async function toggleLike(postId) {
     const post=state.posts.find(p=>p.id===postId); if(!post)return;
-    if(state.demo){post.liked=!post.liked;post.likes+=post.liked?1:-1;renderApp();return;}
-    const query=post.liked?db.from('post_likes').delete().eq('post_id',postId).eq('user_id',state.user.id):db.from('post_likes').insert({post_id:postId,user_id:state.user.id});
-    const {error}=await query; if(error) return showToast('いいねを更新できませんでした'); await loadPosts();
+    if(state.demo){post.liked=!post.liked;post.likes=Math.max(0,post.likes+(post.liked?1:-1));renderApp();return;}
+    const query=post.liked
+      ? db.from('post_likes').delete().eq('post_id',postId).eq('user_id',state.user.id)
+      : db.from('post_likes').insert({post_id:postId,user_id:state.user.id});
+    const {error}=await query;
+    if(error){console.error('PasuChat like:',error);return showToast('いいねを更新できませんでした: '+friendlyError(error));}
+    await loadPosts();
   }
   async function deletePost(postId) {
     if(!confirm('この投稿を削除しますか？'))return;
@@ -208,20 +217,38 @@
     const {error}=await db.from('posts').delete().eq('id',postId).eq('user_id',state.user.id);
     if(error)return showToast('削除できませんでした'); await loadPosts();
   }
+  async function fetchPostComments(postId) {
+    const post=state.posts.find(p=>p.id===postId); if(!post)return false;
+    const {data,error}=await db.from('post_comments').select('id,user_id,content,created_at').eq('post_id',postId).order('created_at',{ascending:true});
+    if(error){console.error('PasuChat comments:',error);showToast('コメントを読み込めませんでした: '+friendlyError(error));return false;}
+    const ids=[...new Set((data||[]).map(x=>x.user_id))];
+    const {data:profiles,error:profileError}=ids.length?await db.from('profiles').select('id,display_name,username').in('id',ids):{data:[],error:null};
+    if(profileError)console.warn('PasuChat comment profiles:',profileError);
+    const map=new Map((profiles||[]).map(p=>[p.id,p]));
+    post.comments=(data||[]).map(c=>({...c,...map.get(c.user_id),name:map.get(c.user_id)?.display_name||map.get(c.user_id)?.username||'ユーザー'}));
+    post.comment_count=post.comments.length;
+    return true;
+  }
   async function loadComments(postId) {
     const post=state.posts.find(p=>p.id===postId); if(!post)return;
     if(state.demo){state.openComments=state.openComments===postId?null:postId;renderApp();return;}
     if(state.openComments===postId){state.openComments=null;renderApp();return;}
-    const {data,error}=await db.from('post_comments').select('id,user_id,content,created_at').eq('post_id',postId).order('created_at');
-    if(error)return showToast('コメントを読み込めませんでした');
-    const ids=[...new Set((data||[]).map(x=>x.user_id))]; const {data:profiles}=ids.length?await db.from('profiles').select('id,display_name,username').in('id',ids):{data:[]}; const map=new Map((profiles||[]).map(p=>[p.id,p]));
-    post.comments=(data||[]).map(c=>({...c,...map.get(c.user_id),name:map.get(c.user_id)?.display_name||map.get(c.user_id)?.username})); state.openComments=postId; renderApp();
+    state.openComments=postId;
+    if(!await fetchPostComments(postId)){state.openComments=null;return;}
+    renderApp();
   }
   async function addComment(event,postId) {
-    event.preventDefault();const text=String(new FormData(event.currentTarget).get('comment')||'').trim();if(!text)return;
-    const post=state.posts.find(p=>p.id===postId);
-    if(state.demo){post.comments.push({name:state.profile.display_name,content:text});renderApp();return;}
-    const {error}=await db.from('post_comments').insert({post_id:postId,user_id:state.user.id,content:text});if(error)return showToast('コメントできませんでした');await loadComments(postId);
+    event.preventDefault();
+    const form=event.currentTarget;
+    const text=String(new FormData(form).get('comment')||'').trim();
+    if(!text)return;
+    const post=state.posts.find(p=>p.id===postId); if(!post)return;
+    if(state.demo){post.comments.push({name:state.profile.display_name,content:text});post.comment_count=post.comments.length;state.openComments=postId;renderApp();return;}
+    const {error}=await db.from('post_comments').insert({post_id:postId,user_id:state.user.id,content:text});
+    if(error){console.error('PasuChat add comment:',error);return showToast('コメントできませんでした: '+friendlyError(error));}
+    form.reset();
+    state.openComments=postId;
+    if(await fetchPostComments(postId))renderApp();
   }
 
   function chatsMarkup(){
@@ -426,7 +453,7 @@
     if(state.demo){const root=$('#group-invite-list');if(root)root.innerHTML=groupInviteListMarkup();bindGroupInviteButtons();return;}
     if(!db||!state.user)return;
     const {data:invites,error}=await db.from('group_invites').select('id,group_id,inviter_id,created_at').eq('invitee_id',state.user.id).eq('status','pending').order('created_at',{ascending:false});
-    if(error){console.error(error);return;}
+    if(error){console.error('PasuChat group invites:',error);showToast('招待を読み込めませんでした: '+friendlyError(error));return;}
     const inviterIds=[...new Set((invites||[]).map(i=>i.inviter_id))];
     const groupIds=[...new Set((invites||[]).map(i=>i.group_id))];
     const [{data:profiles},{data:groups}]=await Promise.all([
@@ -450,8 +477,26 @@
   async function sendGroupMessage(event){event.preventDefault();const content=String(new FormData(event.currentTarget).get('message')||'').trim();if(!content||!state.activeGroupId)return;if(state.demo){const message={id:`demo-gm-${Date.now()}`,group_id:state.activeGroupId,sender_id:state.user.id,sender_name:state.profile.display_name,content,created_at:new Date().toISOString()};state.groupMessages.push(message);state.demoGroupStore=state.demoGroupStore||{};state.demoGroupStore[state.activeGroupId]=[...(state.demoGroupStore[state.activeGroupId]||[]),message];renderApp();return;}const {error}=await db.from('group_messages').insert({group_id:state.activeGroupId,sender_id:state.user.id,content});if(error)return showToast('送信できませんでした: '+friendlyError(error));event.currentTarget.reset();await loadGroupMessages(state.activeGroupId);}
   async function editGroupMessage(messageId){const message=state.groupMessages.find(m=>m.id===messageId);if(!message)return;const updated=prompt('メッセージを編集',message.content);if(updated===null)return;const content=updated.trim();if(!content)return showToast('空のメッセージにはできません');if(content.length>2000)return showToast('メッセージは2000文字以内です。');if(state.demo){message.content=content;message.edited_at=new Date().toISOString();state.demoGroupStore[state.activeGroupId]=[...state.groupMessages];renderApp();return;}const {error}=await db.from('group_messages').update({content,edited_at:new Date().toISOString()}).eq('id',messageId).eq('sender_id',state.user.id);if(error)return showToast('編集できませんでした');await loadGroupMessages(state.activeGroupId);renderApp();}
   async function deleteGroupMessage(messageId){if(!confirm('このメッセージを全員の画面から削除しますか？'))return;const message=state.groupMessages.find(m=>m.id===messageId);if(!message)return;if(state.demo){message.is_deleted=true;message.content='';state.demoGroupStore[state.activeGroupId]=[...state.groupMessages];renderApp();return;}const {error}=await db.from('group_messages').update({is_deleted:true}).eq('id',messageId).eq('sender_id',state.user.id);if(error)return showToast('削除できませんでした');await loadGroupMessages(state.activeGroupId);renderApp();}
-  async function inviteFriendToGroup(event){event.preventDefault();const friendId=String(new FormData(event.currentTarget).get('friendId')||'');if(!friendId||!state.activeGroupId)return showToast('招待するフレンドを選択してください');if(state.demo)return showToast('グループ招待を送りました（デモ）');const {error}=await db.from('group_invites').insert({group_id:state.activeGroupId,inviter_id:state.user.id,invitee_id:friendId});if(error)return showToast('招待できませんでした。フレンド関係を確認してください。');showToast('グループ招待を送りました');}
-  async function respondGroupInvite(inviteId,accept){if(state.demo){const invite=state.groupInvites.find(i=>i.id===inviteId);state.groupInvites=state.groupInvites.filter(i=>i.id!==inviteId);if(accept&&invite){const group={id:invite.group_id,name:invite.group_name,owner_id:'u1',created_at:new Date().toISOString()};state.groups.unshift(group);state.demoGroupStore=state.demoGroupStore||{};state.demoGroupStore[invite.group_id]=[];}renderApp();showToast(accept?'グループに参加しました（デモ）':'招待を拒否しました（デモ）');return;}const {error}=await db.rpc('respond_group_invite',{p_invite_id:inviteId,p_accept:accept});if(error)return showToast(friendlyError(error));showToast(accept?'グループに参加しました':'招待を拒否しました');await loadGroupInvites();if(accept)await loadGroupRooms();}
+  async function inviteFriendToGroup(event){
+    event.preventDefault();
+    const form=event.currentTarget;
+    const friendId=String(new FormData(form).get('friendId')||'');
+    if(!friendId||!state.activeGroupId)return showToast('招待するフレンドを選択してください');
+    if(state.demo)return showToast('グループ招待を送りました（デモ）');
+    const {data,error}=await db.rpc('pasuchat_invite_friend_to_group',{p_group_id:state.activeGroupId,p_invitee_id:friendId});
+    if(error){console.error('PasuChat group invite:',error);return showToast('招待できませんでした: '+friendlyError(error));}
+    showToast('グループ招待を送りました');
+    form.reset();
+  }
+  async function respondGroupInvite(inviteId,accept){
+    if(state.demo){const invite=state.groupInvites.find(i=>i.id===inviteId);state.groupInvites=state.groupInvites.filter(i=>i.id!==inviteId);if(accept&&invite){const group={id:invite.group_id,name:invite.group_name,owner_id:'u1',created_at:new Date().toISOString()};state.groups.unshift(group);state.demoGroupStore=state.demoGroupStore||{};state.demoGroupStore[invite.group_id]=[];}renderApp();showToast(accept?'グループに参加しました（デモ）':'招待を拒否しました（デモ）');return;}
+    const invite=state.groupInvites.find(i=>i.id===inviteId);
+    const {error}=await db.rpc('respond_group_invite',{p_invite_id:inviteId,p_accept:accept});
+    if(error){console.error('PasuChat respond group invite:',error);return showToast(friendlyError(error));}
+    showToast(accept?'グループに参加しました':'招待を拒否しました');
+    await loadGroupInvites();
+    if(accept){await loadGroupRooms();if(invite?.group_id)await openGroup(invite.group_id);}
+  }
 
   function notificationsMarkup(){return `<div class="page-heading"><h2>通知</h2><p>新しいメッセージやフレンド申請などを確認できます。</p><button class="text-btn" id="mark-notifications-read">すべて既読にする</button></div><div class="notification-list">${state.notifications.map(n=>`<div class="notification-item ${n.is_read?'':'unread'} ${n.target_id?'clickable':''}" ${n.target_id?`role="button" tabindex="0" data-open-notification="${esc(n.id)}"`:''}><div class="avatar small">${n.notification_type==='friend_request'?'♙':n.notification_type==='like'?'♥':n.notification_type==='comment'?'▱':(n.notification_type==='group_invite'||n.notification_type==='group_message')?'▦':'✉'}</div><div><p>${esc(n.text||n.body)}</p><small>${shortDate(n.created_at)}</small></div></div>`).join('')||'<div class="empty-card"><div class="empty-icon">♢</div><strong>通知はありません</strong><p>新しい通知が届くと、ここに表示されます。</p></div>'}</div>`;}
   async function loadNotifications(){if(state.demo)return;if(!db||!state.user)return;const {data,error}=await db.from('notifications').select('id,notification_type,body,created_at,is_read,target_id').order('created_at',{ascending:false}).limit(50);if(error){console.error(error);return;}state.notifications=(data||[]).map(n=>({...n,text:n.body}));const list=$('#page-content');if(list&&state.page==='notifications'){list.innerHTML=notificationsMarkup();bindNotifications();}updateNotificationBadges();}
@@ -465,6 +510,8 @@
     state.notificationsChannel=db.channel(`pasuchat-notifications-${state.user.id}`).on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:`recipient_id=eq.${state.user.id}`},payload=>{
       const n={...payload.new,text:payload.new.body};if(!state.notifications.some(item=>item.id===n.id))state.notifications.unshift(n);
       updateNotificationBadges();if(state.page==='notifications'){const list=$('#page-content');if(list){list.innerHTML=notificationsMarkup();bindNotifications();}}
+      if(n.notification_type==='group_invite'&&state.page==='chats')loadGroupInvites();
+      if(n.notification_type==='friend_request'&&state.page==='friends')loadFriendsData();
       showToast(n.text||'新しい通知が届きました');
     }).subscribe((status,error)=>{if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')console.warn('PasuChat notifications realtime:',status,error);});
   }
